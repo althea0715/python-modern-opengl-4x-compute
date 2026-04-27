@@ -27,15 +27,16 @@ vertex_shader_source = """
     #version 460 core
     layout (location = 0) in vec3 aPos;
     void main(){
-       gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+       gl_Position = vec4(aPos, 1.0);
     }
     """
 
 fragment_shader_source = """
     #version 460 core
     out vec4 FragColor;
+    uniform vec4 ourColor;
     void main(){
-       FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+       FragColor = ourColor;
     }
     """
 
@@ -86,14 +87,15 @@ def main():
 
     vertices = np.array(
         [
-            -0.5, -0.5, 0.0, 
-            0.5, -0.5, 0.0, 
-            0.0, 0.5, 0.0
-        ], dtype=np.float32
+            0.5, -0.5, 0.0,
+            -0.5, -0.5, 0.0,
+            0.0,  0.5, 0.0
+        ],
+        dtype=np.float32,
     )
 
     vbo = c_uint32(0)
-    vao = c_uint32(0)
+    vao = c_uint32(0)    
 
     glCreateBuffers(1, vbo)
     glCreateVertexArrays(1, vao)
@@ -105,6 +107,7 @@ def main():
     glVertexArrayAttribFormat(vao, 0, 3, GL_FLOAT, GL_FALSE, 0)
     glVertexArrayAttribBinding(vao, 0, 0)
 
+
     while not glfwWindowShouldClose(window):
         process_input(window)
 
@@ -112,6 +115,12 @@ def main():
         glClear(GL_COLOR_BUFFER_BIT)
 
         glUseProgram(shader_program)
+
+        time_value = glfwGetTime()
+        green_value = np.sin(time_value) / 2.0 + 0.5
+        vertex_color_location = glGetUniformLocation(shader_program, "ourColor")
+        glUniform4f(vertex_color_location, 0.0, green_value, 0.0, 1.0)
+
         glBindVertexArray(vao)
         glDrawArrays(GL_TRIANGLES, 0, 3)
 

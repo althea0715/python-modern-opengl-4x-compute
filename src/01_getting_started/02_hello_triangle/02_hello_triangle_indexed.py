@@ -85,18 +85,18 @@ def main():
     glDeleteShader(fragment_shader)
 
     vertices = np.array(
-        [0.5, 0.5, 0.0, 0.5, -0.5, 0.0, -0.5, -0.5, 0.0, -0.5, 0.5, 0.0],
-        dtype=np.float32,
+        [
+            -0.5, -0.5, 0.0, 
+            0.5, -0.5, 0.0, 
+            0.0, 0.5, 0.0
+        ], 
+        dtype=np.float32
     )
 
     indices = np.array(
         [
-            0,
-            1,
-            3,
-            1,
-            2,
-            3,
+            0, 1, 3,
+            1, 2, 3,
         ],
         dtype=np.uint32,
     )

@@ -26,16 +26,20 @@ def process_input(window: GLFWwindow):
 vertex_shader_source = """
     #version 460 core
     layout (location = 0) in vec3 aPos;
+    layout (location = 1) in vec3 aColor;
+    out vec3 ourColor;
     void main(){
-       gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+       gl_Position = vec4(aPos, 1.0);
+       ourColor = aColor;
     }
     """
 
 fragment_shader_source = """
     #version 460 core
     out vec4 FragColor;
+    in vec3 ourColor;
     void main(){
-       FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+       FragColor = vec4(ourColor, 1.0);
     }
     """
 
@@ -85,25 +89,33 @@ def main():
     glDeleteShader(fragment_shader)
 
     vertices = np.array(
-        [
-            -0.5, -0.5, 0.0, 
-            0.5, -0.5, 0.0, 
-            0.0, 0.5, 0.0
-        ], dtype=np.float32
+        [   
+            # positions         # colors
+            0.5, -0.5, 0.0,     1.0, 0.0, 0.0,
+            -0.5, -0.5, 0.0,    0.0, 1.0, 0.0,
+            0.0,  0.5, 0.0,     0.0, 0.0, 1.0 
+        ],
+        dtype=np.float32,
     )
 
     vbo = c_uint32(0)
-    vao = c_uint32(0)
+    vao = c_uint32(0)    
 
     glCreateBuffers(1, vbo)
     glCreateVertexArrays(1, vao)
 
     glNamedBufferStorage(vbo, vertices.nbytes, vertices, GL_DYNAMIC_STORAGE_BIT)
-    glVertexArrayVertexBuffer(vao, 0, vbo, 0, 3 * vertices.itemsize)
+    glVertexArrayVertexBuffer(vao, 0, vbo, 0, 6 * vertices.itemsize)
 
     glEnableVertexArrayAttrib(vao, 0)
-    glVertexArrayAttribFormat(vao, 0, 3, GL_FLOAT, GL_FALSE, 0)
+    glEnableVertexArrayAttrib(vao, 1)
+
+    glVertexArrayAttribFormat(vao, 0, 3, GL_FLOAT, GL_FALSE, 0 * vertices.itemsize)
+    glVertexArrayAttribFormat(vao, 1, 3, GL_FLOAT, GL_FALSE, 3 * vertices.itemsize)
+
     glVertexArrayAttribBinding(vao, 0, 0)
+    glVertexArrayAttribBinding(vao, 1, 0)
+
 
     while not glfwWindowShouldClose(window):
         process_input(window)
