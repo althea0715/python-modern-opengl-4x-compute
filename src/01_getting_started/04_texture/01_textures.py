@@ -97,7 +97,7 @@ def main():
     glTextureParameteri(texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)
     glTextureParameteri(texture, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
-    img = Image.open("../img/texture/container.jpg").convert("RGBA")
+    img = Image.open("../../img/texture/container.jpg").convert("RGBA")
     glTextureStorage2D(texture, 1, GL_RGBA8, img.width, img.height)
     glTextureSubImage2D(texture, 0, 0, 0, img.width, img.height, GL_RGBA, GL_UNSIGNED_BYTE, img.tobytes())
     glGenerateTextureMipmap(texture)

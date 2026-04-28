@@ -95,7 +95,7 @@ def main():
     glTextureParameteri(texture1, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)
     glTextureParameteri(texture1, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
-    img = Image.open("../img/texture/container.jpg").convert("RGBA").transpose(Image.Transpose.FLIP_TOP_BOTTOM)
+    img = Image.open("../../img/texture/container.jpg").convert("RGBA").transpose(Image.Transpose.FLIP_TOP_BOTTOM)
     glTextureStorage2D(texture1, 1, GL_RGBA8, img.width, img.height)
     glTextureSubImage2D(texture1, 0, 0, 0, img.width, img.height, GL_RGBA, GL_UNSIGNED_BYTE, img.tobytes())
     glGenerateTextureMipmap(texture1)
@@ -108,7 +108,7 @@ def main():
     glTextureParameteri(texture2, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)
     glTextureParameteri(texture2, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
-    img = Image.open("../img/texture/awesomeface.png").convert("RGBA").transpose(Image.Transpose.FLIP_TOP_BOTTOM)
+    img = Image.open("../../img/texture/awesomeface.png").convert("RGBA").transpose(Image.Transpose.FLIP_TOP_BOTTOM)
     glTextureStorage2D(texture2, 1, GL_RGBA8, img.width, img.height)
     glTextureSubImage2D(texture2, 0, 0, 0, img.width, img.height, GL_RGBA, GL_UNSIGNED_BYTE, img.tobytes())
     glGenerateTextureMipmap(texture2)
