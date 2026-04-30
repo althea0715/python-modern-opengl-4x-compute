@@ -191,7 +191,7 @@ def main():
         lighting_shader.set_vec3("lightColor", 1.0, 1.0, 1.0)
         lighting_shader.set_vec3v("lightPos", light_pos)
 
-        projection = glm.perspective(glm.radians(camera._zoom), SCR_WIDTH / SCR_HEIGHT, 0.1, 100.0)
+        projection = glm.perspective(glm.radians(camera.zoom), SCR_WIDTH / SCR_HEIGHT, 0.1, 100.0)
         view = camera.get_view_matrix()
         lighting_shader.set_mat4v("projection", projection)
         lighting_shader.set_mat4v("view", view)

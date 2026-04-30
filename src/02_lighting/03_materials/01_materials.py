@@ -94,7 +94,7 @@ def main():
 
     glEnable(GL_DEPTH_TEST)
 
-    lighting_shader = Shader("./02_basic_lighting.vs", "./02_basic_lighting.fs")
+    lighting_shader = Shader("./01_basic_lighting.vs", "./01_basic_lighting.fs")
     light_cube_shader = Shader("./01_light_cube.vs", "./01_light_cube.fs")
 
     vertices = np.array(
@@ -187,10 +187,24 @@ def main():
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         lighting_shader.use()
-        lighting_shader.set_vec3("objectColor", 1.0, 0.5, 0.31)
-        lighting_shader.set_vec3("lightColor", 1.0, 1.0, 1.0)
-        lighting_shader.set_vec3v("lightPos", light_pos)
+        lighting_shader.set_vec3v("light.position", light_pos)
         lighting_shader.set_vec3v("viewPos", camera.position)
+
+        
+        light_color = glm.vec3()
+        light_color.x = glm.sin(glfwGetTime() * 2.0)
+        light_color.y = glm.sin(glfwGetTime() * 0.7)
+        light_color.z = glm.sin(glfwGetTime() * 1.3)
+        diffuse_color = light_color * glm.vec3(0.5)
+        ambient_color = light_color * glm.vec3(0.2)
+        lighting_shader.set_vec3v("light.ambient", diffuse_color)
+        lighting_shader.set_vec3v("light.diffuse", ambient_color)
+        lighting_shader.set_vec3("light.specular", 1.0, 1.0, 1.0)        
+
+        lighting_shader.set_vec3("material.ambient", 1.0, 0.5, 0.31)
+        lighting_shader.set_vec3("material.diffuse", 1.0, 0.5, 0.31)
+        lighting_shader.set_vec3("material.specular", 0.5, 0.5, 0.5)
+        lighting_shader.set_float("material.shinines", 32.0)
 
         projection = glm.perspective(glm.radians(camera.zoom), SCR_WIDTH / SCR_HEIGHT, 0.1, 100.0)
         view = camera.get_view_matrix()
