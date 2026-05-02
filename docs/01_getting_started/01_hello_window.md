@@ -1,50 +1,47 @@
-# 1.1 Hello Window
+# Hello Window
 
 ## Overview
 
-In this section, we create the first OpenGL window and initialize the rendering context.
+Create a window and initialize the OpenGL context in Python.
 
-This is the minimal setup required before any rendering can happen.
-
----
-
-## Why this matters
-
-Before drawing anything with OpenGL, we need:
-
-* A window to display output
-* An OpenGL context
-* An event loop to keep the application running
-
-Without this, OpenGL functions cannot be used.
+This section focuses on how the setup differs from a typical C++ OpenGL workflow.
 
 ---
 
-## Key Concepts
+## Differences from C++
 
-### Window and Context
+### 1. No GLAD required
 
-OpenGL itself does not create windows.
-We rely on libraries such as GLFW to:
+- In C++:
+  - Requires GLAD / GLEW for function loading
 
-* Create a window
-* Initialize an OpenGL context
+- In Python:
+  - PyOpenGL already provides bindings for OpenGL 3.3+
 
-The context is essential because it stores all OpenGL state.
+### 2. No forward declaration (like C++)
+
+- In C++:
+  - Functions and variables can be declared before definition
+  - This is required due to compile-time type checking
+
+- In Python:
+  - No separate declaration phase
+  - Functions must be defined before they are used at runtime
 
 ---
 
-### Event Loop
+## Notes
 
-Rendering applications must run continuously.
+- Install dependencies:
+  - `pip install glfw PyOpenGL PyOpenGL_accelerate`
 
-A typical loop:
+- `moderngl` is not equivalent to C++ OpenGL (different abstraction)
 
-* Process input
-* Render frame
-* Swap buffers
+- Initialization order still matters (same as C++)
 
-This loop continues until the window is closed.
+- We intentionally avoid "pythonic" style  
+  - to keep the structure similar to C++  
+  - e.g. `glfw.init()` → explicit-style usage
 
 ---
 
@@ -54,49 +51,5 @@ See code:
 
 ```
 src/01_getting_started/01_hello_window.py
+src/01_getting_started/02_hello_window_clear.py
 ```
-
-### Main Steps
-
-1. Initialize the windowing system
-2. Create a window
-3. Make the OpenGL context current
-4. Enter the render loop
-5. Handle input and window close
-
----
-
-## Common Pitfalls
-
-### 1. No OpenGL Context
-
-If the context is not created properly:
-
-* OpenGL calls will fail silently
-* Nothing will be rendered
-
----
-
-### 2. Missing Event Loop
-
-If there is no loop:
-
-* The window appears and immediately closes
-
----
-
-### 3. Incorrect Initialization Order
-
-Order matters:
-
-* Create window → Make context current → Call OpenGL functions
-
----
-
-## Summary
-
-* OpenGL requires a valid context
-* A windowing library is required (e.g., GLFW)
-* Rendering happens inside a continuous loop
-
-This forms the foundation for all upcoming examples.
