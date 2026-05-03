@@ -50,6 +50,6 @@ This section focuses on how the setup differs from a typical C++ OpenGL workflow
 See code:
 
 ```
-src/01_getting_started/01_hello_window.py
-src/01_getting_started/02_hello_window_clear.py
+src/01_getting_started/01_hello_window/01_hello_window.py
+src/01_getting_started/01_hello_window/02_hello_window_clear.py
 ```
