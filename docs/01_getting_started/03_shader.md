@@ -43,6 +43,7 @@ It also briefly checks the program pipeline (separable shader) for comparison.
 - In Python:
   - Similar abstraction can be implemented
   - Simpler due to dynamic typing
+
 ---
 
 ## Notes

@@ -38,6 +38,7 @@ This section uses Direct State Access (DSA) instead of the traditional bind-base
 - In this project:
   - Uses DSA functions (glCreateBuffers, glCreateVertexArrays)
   - Objects are created and modified without binding
+  - Reduces global state dependency, making code safer and easier to reason about
 
 ---
 

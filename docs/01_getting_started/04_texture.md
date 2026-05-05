@@ -18,6 +18,7 @@ This section emphasizes the Immutable Storage concept and the rational choice of
 
 - In Python:
   - Dependency Backbone: We choose Pillow because it is the actual backbone for OpenCV, Matplotlib, and Scikit-image. Using it directly minimizes overhead and dependency bloat.
+  - Pillow provides predictable RGBA byte layout and integrates cleanly with NumPy-based workflows
 
 ###  2. Using DSA
 

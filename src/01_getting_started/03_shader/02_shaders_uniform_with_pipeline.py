@@ -139,8 +139,9 @@ def main():
 
     glDeleteVertexArrays(1, vao)
     glDeleteBuffers(1, vbo)
-    glDeleteProgram(program_pipeline)
-    glDeleteProgramPipelines(program_pipeline)
+    glDeleteProgram(vertex_program)
+    glDeleteProgram(fragment_program)
+    glDeleteProgramPipelines(1, program_pipeline)
 
     glfwDestroyWindow(window)
     glfwTerminate()

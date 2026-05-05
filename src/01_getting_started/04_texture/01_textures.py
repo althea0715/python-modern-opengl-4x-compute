@@ -91,7 +91,7 @@ def main():
     glVertexArrayAttribBinding(vao, 2, 0)
 
     texture = c_uint32(0)
-    glCreateTextures(GL_TEXTURE_2D, 1, texture)
+    glCreateTextures(GL_TEXTURE_2D, 1, byref(texture))
     glTextureParameteri(texture, GL_TEXTURE_WRAP_S, GL_REPEAT)
     glTextureParameteri(texture, GL_TEXTURE_WRAP_T, GL_REPEAT)
     glTextureParameteri(texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)

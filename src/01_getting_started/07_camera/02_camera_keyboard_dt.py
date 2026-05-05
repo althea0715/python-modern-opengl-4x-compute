@@ -148,20 +148,20 @@ def main():
     glVertexArrayAttribBinding(vao, 1, 0)
 
     texture1 = c_uint32(0)
-    glCreateTextures(GL_TEXTURE_2D, 1, texture1)
+    glCreateTextures(GL_TEXTURE_2D, 1, byref(texture1))
     glTextureParameteri(texture1, GL_TEXTURE_WRAP_S, GL_REPEAT)
     glTextureParameteri(texture1, GL_TEXTURE_WRAP_T, GL_REPEAT)
     glTextureParameteri(texture1, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)
     glTextureParameteri(texture1, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
-    img = Image.open("../img/texture/container.jpg").convert("RGBA").transpose(Image.Transpose.FLIP_TOP_BOTTOM)
+    img = Image.open("../../img/texture/container.jpg").convert("RGBA").transpose(Image.Transpose.FLIP_TOP_BOTTOM)
     glTextureStorage2D(texture1, 1, GL_RGBA8, img.width, img.height)
     glTextureSubImage2D(texture1, 0, 0, 0, img.width, img.height, GL_RGBA, GL_UNSIGNED_BYTE, img.tobytes())
     glGenerateTextureMipmap(texture1)
 
 
     texture2 = c_uint32(0)
-    glCreateTextures(GL_TEXTURE_2D, 1, texture2)
+    glCreateTextures(GL_TEXTURE_2D, 1, byref(texture2))
     glTextureParameteri(texture2, GL_TEXTURE_WRAP_S, GL_REPEAT)
     glTextureParameteri(texture2, GL_TEXTURE_WRAP_T, GL_REPEAT)
     glTextureParameteri(texture2, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)
