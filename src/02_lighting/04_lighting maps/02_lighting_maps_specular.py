@@ -3,7 +3,7 @@ import logging
 import numpy as np
 
 from typing import Final
-from ctypes import c_uint32
+from ctypes import c_uint32, byref
 
 from PIL import Image
 
@@ -167,8 +167,8 @@ def main():
     vbo = c_uint32(0)
     cube_vao = c_uint32(0)
 
-    glCreateBuffers(1, vbo)
-    glCreateVertexArrays(1, cube_vao)
+    glCreateBuffers(1, byref(vbo))
+    glCreateVertexArrays(1, byref(cube_vao))
 
     glNamedBufferStorage(vbo, vertices.nbytes, vertices, GL_DYNAMIC_STORAGE_BIT)
     glVertexArrayVertexBuffer(cube_vao, 0, vbo, 0, 8 * vertices.itemsize)
@@ -187,7 +187,7 @@ def main():
 
 
     light_cube_vao = c_uint32(0)
-    glCreateVertexArrays(1, light_cube_vao)
+    glCreateVertexArrays(1, byref(light_cube_vao))
 
     glVertexArrayVertexBuffer(light_cube_vao, 0, vbo, 0, 8 * vertices.itemsize)
 

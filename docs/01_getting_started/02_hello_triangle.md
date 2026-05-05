@@ -20,7 +20,17 @@ This section uses Direct State Access (DSA) instead of the traditional bind-base
   - Required when passing references to OpenGL functions (e.g. glCreateBuffers, glCreateVertexArrays)
 
 
-### 2. Using DSA (Direct State Access)
+### 2. Memory Management (NumPy vs C-Struct)
+
+- In C++: 
+  - Data is defined via structs or raw arrays (memory is always contiguous).
+
+- In Python (with NumPy):
+  - We use `numpy.ndarray` with `dtype=np.float32` to match OpenGL's expected 4-byte floats.
+  - `vertices.nbytes` is used to get the total size in bytes (equivalent to `sizeof(vertices)`).
+  - Precaution: Ensure the array is C-contiguous (default for new arrays) before passing to OpenGL.
+
+### 3. Using DSA (Direct State Access)
 
 - In traditional OpenGL (C++ tutorials):
   - Uses a bind-based workflow (glBindBuffer, glBindVertexArray)
@@ -28,7 +38,7 @@ This section uses Direct State Access (DSA) instead of the traditional bind-base
 - In this project:
   - Uses DSA functions (glCreateBuffers, glCreateVertexArrays)
   - Objects are created and modified without binding
-  
+
 ---
 
 ## Notes

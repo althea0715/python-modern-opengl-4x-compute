@@ -3,7 +3,7 @@ import logging
 import numpy as np
 
 from typing import Final
-from ctypes import c_uint32
+from ctypes import c_uint32, byref
 
 from glfw.GLFW import *  # type: ignore
 from glfw import _GLFWwindow as GLFWwindow  # type: ignore
@@ -86,9 +86,10 @@ def main():
 
     vertices = np.array(
         [
-            -0.5, -0.5, 0.0, 
-            0.5, -0.5, 0.0, 
-            0.0, 0.5, 0.0
+            0.5,  0.5, 0.0,
+            0.5, -0.5, 0.0,
+            -0.5, -0.5, 0.0,
+            -0.5,  0.5, 0.0,
         ], 
         dtype=np.float32
     )
@@ -105,9 +106,9 @@ def main():
     vao = c_uint32(0)
     ebo = c_uint32(0)
 
-    glCreateBuffers(1, vbo)
-    glCreateBuffers(1, ebo)
-    glCreateVertexArrays(1, vao)
+    glCreateBuffers(1, byref(vbo))
+    glCreateBuffers(1, byref(ebo))
+    glCreateVertexArrays(1, byref(vao))
 
     glNamedBufferStorage(vbo, vertices.nbytes, vertices, GL_DYNAMIC_STORAGE_BIT)
     glNamedBufferStorage(ebo, indices.nbytes, indices, GL_DYNAMIC_STORAGE_BIT)

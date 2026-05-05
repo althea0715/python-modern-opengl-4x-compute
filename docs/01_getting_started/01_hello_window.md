@@ -16,7 +16,7 @@ This section focuses on how the setup differs from a typical C++ OpenGL workflow
   - Requires GLAD / GLEW for function loading
 
 - In Python:
-  - PyOpenGL already provides bindings for OpenGL 3.3+
+  - PyOpenGL provides dynamic bindings to OpenGL functions
 
 ### 2. No forward declaration (like C++)
 
@@ -27,6 +27,7 @@ This section focuses on how the setup differs from a typical C++ OpenGL workflow
 - In Python:
   - No separate declaration phase
   - Functions must be defined before they are used at runtime
+  - Order of definition matters for execution
 
 ---
 
@@ -40,7 +41,7 @@ This section focuses on how the setup differs from a typical C++ OpenGL workflow
 - Initialization order still matters (same as C++)
 
 - We intentionally avoid "pythonic" style  
-  - to keep the structure similar to C++  
+  - to keep parity with the LearnOpenGL C++ structure
   - e.g. `glfw.init()` → explicit-style usage
 
 ---

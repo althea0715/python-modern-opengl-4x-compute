@@ -3,7 +3,7 @@ import logging
 import numpy as np
 
 from typing import Final
-from ctypes import c_uint32
+from ctypes import c_uint32, byref
 
 from PIL import Image
 
@@ -186,8 +186,8 @@ def main():
     vbo = c_uint32(0)
     vao = c_uint32(0)
 
-    glCreateBuffers(1, vbo)
-    glCreateVertexArrays(1, vao)
+    glCreateBuffers(1, byref(vbo))
+    glCreateVertexArrays(1, byref(vao))
 
     glNamedBufferStorage(vbo, vertices.nbytes, vertices, GL_DYNAMIC_STORAGE_BIT)
     glVertexArrayVertexBuffer(vao, 0, vbo, 0, 5 * vertices.itemsize)

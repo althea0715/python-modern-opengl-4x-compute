@@ -9,206 +9,92 @@ Modern OpenGL implemented in Python, extending beyond rendering into GPU computi
 
 ## Motivation
 
-As a data scientist, most of my work focuses on optimizing models based on data.
-In many cases, time-dependent simulation and visualization are not part of the workflow.
+Most data science workflows focus on optimization over static datasets.
 
-However, while exploring numerical methods involving discretization and mesh-based approaches,
-I found myself needing to simulate and visualize data evolving over time.
-This naturally leads to GPU-based computation and real-time rendering.
+However, when working with:
 
-There are several choices for this:
+- time-evolving systems
+- spatial structures (2D / 3D grids)
+- continuous visualization
 
-- OpenGL
-- DirectX
-- Vulkan
-- WebGPU
+the problem shifts to:
 
-Although DirectX would be the natural choice on Windows,
-I wanted a cross-platform solution. That led me to OpenGL.
-
-After studying OpenGL through LearnOpenGL, I gained a solid understanding of the graphics pipeline.
-The next step would typically be Vulkan, but Vulkan introduces significant complexity and overhead.
-
-For someone already familiar with GPU computation:
-
-- CUDA exists
-- Python ecosystems like NumPy, CuPy, and PyTorch already solve many problems
-- C++ is often only used for performance-critical bottlenecks
-
-So the question becomes:
-
-Do we really need Vulkan for GPU computation?
+> **simulation + visualization + performance**
 
 ---
 
-## Why OpenGL (4.3+)?
+## Core Idea
 
-OpenGL 4.3 introduced features that are highly relevant for GPU computing:
-
-- Compute Shader
-- SSBO (structured data on GPU)
-- Parallel execution on the GPU
-
-However, most "modern OpenGL" tutorials focus only on OpenGL 3.3 (rendering pipeline).
-Resources covering OpenGL 4.3+ from a compute perspective are surprisingly limited.
+Use the GPU as a **numerical computation engine**, not just a rendering tool.
 
 ---
 
-## Why this repository?
+## Why OpenGL?
 
-Most OpenGL tutorials focus on rendering.
+Vulkan offers maximum control, but comes with significant complexity.
 
-This project focuses on:
+For exploratory and research workflows, the priority is:
 
-* Using the GPU as a computation device
-* Compute shader–based parallel processing
-* Designing CPU ↔ GPU data pipelines
-* Practical use of modern OpenGL features (4.3+)
+- fast iteration
+- minimal boilerplate
+- direct GPU access
 
-===============================================================================================
+OpenGL provides a practical balance:
 
-
-
-
----
-
-## Features
-
-* Compute Shader (4.3+)
-* SSBO (Shader Storage Buffer Object)
-* Direct State Access (DSA)
-* GPU synchronization and memory model
-* GPU-driven data pipelines
+- Compute Shader (OpenGL 4.3+)
+- integrated rendering + computation
+- lower setup cost than Vulkan
 
 ---
 
-## Roadmap
+## Why Python?
 
-### Part 1 — Core OpenGL (3.3)
+This project prioritizes **iteration speed**.
 
-* Window and Context
-* First Triangle
-* Shader System
-* Transformations
-* Coordinate Systems
-* Lighting
-* Model Loading
+Python enables:
 
-### Part 2 — Modern Extensions (4.3+)
+- rapid prototyping
+- seamless NumPy/CuPy integration
+- flexible simulation design
 
-* Compute Shader (dispatch, work groups)
-* SSBO (structured and large data handling)
-* DSA (object-oriented API usage)
-* Synchronization (barriers, fences)
-* Memory model
-
-### Part 3 — GPU Applications
-
-* GPU Particle System
-* Image Processing (convolution, blur)
-* Parallel Simulation
-* Data-oriented GPU design
+> prototype fast → validate → port to C++ if needed
 
 ---
 
-## Examples
+## What This Project Does
 
-* GPU Particle System
-* Image Convolution (Compute Shader)
-* Parallel Simulation
+- GPU-based simulation using Compute Shaders
+- grid/mesh-based numerical computation
+- real-time visualization of evolving systems
 
-<!--
-TODO: Add GIFs here
+Example use cases:
 
-Example:
-![particle](assets/gifs/particle.gif)
--->
-
----
-
-## Project Structure
-
-```
-src/        # source code (organized by chapter)
-docs/       # documentation (book-style)
-assets/     # images and results
-```
-
-Example:
-
-```
-src/
- ├── 01_getting_started/
- ├── 02_lighting/
- ├── 03_model_loading/
- ├── 04_advanced/
- ├── 05_compute/
- └── 06_applications/
-
-docs/
- ├── index.md
- ├── 01_getting_started/
- ├── 05_compute/
- └── 06_applications/
-```
+- finite difference methods (FDM)
+- cellular automata
+- particle systems
+- diffusion / wave simulations
 
 ---
 
-## Getting Started
+## Implementation Strategy
 
-```bash
-git clone https://github.com/althea0715/python-modern-opengl-4x-compute.git
-cd python-modern-opengl-4x-compute
+- **GLFW + PyOpenGL**  
+  → direct mapping to OpenGL (C++-friendly)
 
-pip install -r requirements.txt
+- **Direct State Access (DSA)**  
+  → modern, explicit resource management
 
-python src/01_getting_started/main.py
-```
-
----
-
-## Documentation
-
-Full documentation is available in:
-
-```
-docs/index.md
-```
-
-(Planned: GitHub Pages)
+- **Portability-first design**  
+  → easily translatable to C++
 
 ---
 
-## Tech Stack
+## Philosophy
 
-* Python
-* OpenGL
-* PyOpenGL / moderngl
-* GLFW
-* numpy
+This is not a graphics engine.
 
----
+This is about:
 
-## Related Projects
-
-This repository is part of a broader GPU learning series:
-
-* Ray Tracing (Python / GPU)
-* FDTD Simulation (GPU)
-
----
-
-## Roadmap (Future Work)
-
-* Persistent Mapping optimization
-* Advanced GPU synchronization patterns
-* GPU-based physics simulation
-* Optional C++ backend for performance-critical components
-
----
-
-## Summary
-
-This is not just an OpenGL tutorial.
-
-It is a step toward GPU computing.
+- treating the GPU as a **compute device**
+- building **time-dependent simulations**
+- bridging **data science ↔ real-time systems**

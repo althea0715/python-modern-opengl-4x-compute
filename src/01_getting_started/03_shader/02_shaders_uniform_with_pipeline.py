@@ -3,7 +3,7 @@ import logging
 import numpy as np
 
 from typing import Final
-from ctypes import c_uint32, POINTER, c_char_p, c_char, cast
+from ctypes import c_uint32, byref, POINTER, c_char_p, c_char, cast
 
 from glfw.GLFW import *  # type: ignore
 from glfw import _GLFWwindow as GLFWwindow  # type: ignore
@@ -91,7 +91,7 @@ def main():
     glProgramParameteri(fragment_program, GL_PROGRAM_SEPARABLE, GL_TRUE)
 
     program_pipeline = c_uint32(0)
-    glCreateProgramPipelines(1, program_pipeline)
+    glCreateProgramPipelines(1, byref(program_pipeline))
     glUseProgramStages(program_pipeline, GL_VERTEX_SHADER_BIT, vertex_program)
     glUseProgramStages(program_pipeline, GL_FRAGMENT_SHADER_BIT, fragment_program)
 
@@ -107,8 +107,8 @@ def main():
     vbo = c_uint32(0)
     vao = c_uint32(0)    
 
-    glCreateBuffers(1, vbo)
-    glCreateVertexArrays(1, vao)
+    glCreateBuffers(1, byref(vbo))
+    glCreateVertexArrays(1, byref(vao))
 
     glNamedBufferStorage(vbo, vertices.nbytes, vertices, GL_DYNAMIC_STORAGE_BIT)
     glVertexArrayVertexBuffer(vao, 0, vbo, 0, 3 * vertices.itemsize)

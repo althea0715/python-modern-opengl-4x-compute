@@ -30,12 +30,7 @@ It also briefly checks the program pipeline (separable shader) for comparison.
   - Uses a single program object (vertex + fragment linked together)
 
 - In this project:
-  - Tests separable shader pipeline:
-    - glCreateShaderProgramv
-    - glProgramParameteri
-    - glCreateProgramPipelines
-    - glUseProgramStages
-
+  - Tests separable shader pipeline
   - This is only for verification  
     (not used in the main flow, to stay compatible with LearnOpenGL-style structure)
 
