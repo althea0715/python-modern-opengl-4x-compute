@@ -162,7 +162,6 @@ def main():
     glVertexArrayAttribBinding(cube_vao, 0, 0)
     glVertexArrayAttribBinding(cube_vao, 1, 0)
 
-
     light_cube_vao = c_uint32(0)
     glCreateVertexArrays(1, byref(light_cube_vao))
 

@@ -27,8 +27,6 @@ first_mouse = True
 delta_time = 0.0
 last_frame = 0.0
 
-light_pos = glm.vec3(1.2, 1.0, 2.0)
-
 
 def framebuffer_size_callback(window: GLFWwindow, width: int, height: int):
     glViewport(0, 0, width, height)
@@ -76,7 +74,7 @@ def scroll_callback(window: GLFWwindow, xoffset: float, yoffset: float):
 
 def load_texture(path:str) -> c_uint32:
     texture = c_uint32(0)
-    glCreateTextures(GL_TEXTURE_2D, 1, byref(texture))
+    glCreateTextures(GL_TEXTURE_2D, 1, texture)
 
     img = Image.open(path).convert("RGBA")
     glTextureStorage2D(texture, 1, GL_RGBA8, img.width, img.height)
@@ -114,7 +112,7 @@ def main():
 
     glEnable(GL_DEPTH_TEST)
 
-    lighting_shader = Shader("./01_lighting_maps.vs", "./01_lighting_maps.fs")
+    lighting_shader = Shader("./01_light_casters.vs", "./01_light_casters.fs")
     light_cube_shader = Shader("./01_light_cube.vs", "./01_light_cube.fs")
 
     vertices = np.array(
@@ -164,6 +162,20 @@ def main():
         dtype=np.float32,
     )
 
+
+    cube_positions = [
+        glm.vec3( 0.0,  0.0,  0.0),
+        glm.vec3( 2.0,  5.0, -15.0),
+        glm.vec3(-1.5, -2.2, -2.5),
+        glm.vec3(-3.8, -2.0, -12.3),
+        glm.vec3( 2.4, -0.4, -3.5),
+        glm.vec3(-1.7,  3.0, -7.5),
+        glm.vec3( 1.3, -2.0, -2.5),
+        glm.vec3( 1.5,  2.0, -2.5),
+        glm.vec3( 1.5,  0.2, -1.5),
+        glm.vec3(-1.3,  1.0, -1.5),
+    ]
+
     vbo = c_uint32(0)
     cube_vao = c_uint32(0)
 
@@ -195,10 +207,13 @@ def main():
     glVertexArrayAttribFormat(light_cube_vao, 0, 3, GL_FLOAT, GL_FALSE, 0 * vertices.itemsize)
     glVertexArrayAttribBinding(light_cube_vao, 0, 0)
 
+
     diffuse_map = load_texture("../../img/texture/container2.png")
+    specular_map = load_texture("../../img/texture/container2_specular.png")
 
     lighting_shader.use()
     lighting_shader.set_int("material.diffuse", 0)
+    lighting_shader.set_int("material.specular", 1)
     
 
     global delta_time, last_frame
@@ -215,15 +230,14 @@ def main():
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         lighting_shader.use()
-        lighting_shader.set_vec3v("light.position", light_pos)
+        lighting_shader.set_vec3("light.direction", -0.2, 1.0, 0.3)
         lighting_shader.set_vec3v("viewPos", camera.position)
 
         lighting_shader.set_vec3("light.ambient", 0.2, 0.2, 0.2)
         lighting_shader.set_vec3("light.diffuse", 0.5, 0.5, 0.5)
         lighting_shader.set_vec3("light.specular", 1.0, 1.0, 1.0)        
 
-        lighting_shader.set_vec3("material.specular", 0.5, 0.5, 0.5)
-        lighting_shader.set_float("material.shinines", 64.0)
+        lighting_shader.set_float("material.shinines", 32.0)
 
         projection = glm.perspective(glm.radians(camera.zoom), SCR_WIDTH / SCR_HEIGHT, 0.1, 100.0)
         view = camera.get_view_matrix()
@@ -234,20 +248,31 @@ def main():
         lighting_shader.set_mat4v("model", model)
 
         glBindTextureUnit(0, diffuse_map)
+        glBindTextureUnit(1, specular_map)
+
+        # glBindVertexArray(cube_vao)
+        # glDrawArrays(GL_TRIANGLES, 0, 36)
 
         glBindVertexArray(cube_vao)
-        glDrawArrays(GL_TRIANGLES, 0, 36)
-    
-        light_cube_shader.use()
-        light_cube_shader.set_mat4v("projection", projection)
-        light_cube_shader.set_mat4v("view", view)        
-        model = glm.mat4(1.0)
-        model = glm.translate(model, light_pos)
-        model = glm.scale(model, glm.vec3(0.2))
-        light_cube_shader.set_mat4v("model", model)
+        for i, cube_position in enumerate(cube_positions):
+            model = glm.mat4(1.0)
+            model = glm.translate(model, cube_position)
+            angle = 20.0 * i
+            model = glm.rotate(model, glm.radians(angle), glm.vec3(1.0, 0.3, 0.5))
 
-        glBindVertexArray(light_cube_vao)
-        glDrawArrays(GL_TRIANGLES, 0, 36)
+            lighting_shader.set_mat4v("model", model)
+            glDrawArrays(GL_TRIANGLES, 0, 36)
+
+        # light_cube_shader.use()
+        # light_cube_shader.set_mat4v("projection", projection)
+        # light_cube_shader.set_mat4v("view", view)        
+        # model = glm.mat4(1.0)
+        # model = glm.translate(model, light_pos)
+        # model = glm.scale(model, glm.vec3(0.2))
+        # light_cube_shader.set_mat4v("model", model)
+
+        # glBindVertexArray(light_cube_vao)
+        # glDrawArrays(GL_TRIANGLES, 0, 36)
 
         glfwSwapBuffers(window)
         glfwPollEvents()
