@@ -100,7 +100,6 @@ def main():
     glTextureSubImage2D(texture1, 0, 0, 0, img.width, img.height, GL_RGBA, GL_UNSIGNED_BYTE, img.tobytes())
     glGenerateTextureMipmap(texture1)
 
-
     texture2 = c_uint32(0)
     glCreateTextures(GL_TEXTURE_2D, 1, byref(texture2))
     glTextureParameteri(texture2, GL_TEXTURE_WRAP_S, GL_REPEAT)

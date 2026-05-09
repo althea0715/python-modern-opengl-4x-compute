@@ -10,7 +10,7 @@ from PIL import Image
 from glfw.GLFW import *  # type: ignore
 from glfw import _GLFWwindow as GLFWwindow  # type: ignore
 from OpenGL.GL import *  # type: ignore
-from pyglm import glm  
+from pyglm import glm   # type: ignore
 
 from shader import Shader
 

@@ -10,7 +10,7 @@ from PIL import Image
 from glfw.GLFW import *  # type: ignore
 from glfw import _GLFWwindow as GLFWwindow  # type: ignore
 from OpenGL.GL import *  # type: ignore
-from pyglm import glm   # pip install pyglm
+from pyglm import glm   # type: ignore
 
 from shader import Shader
 
@@ -44,40 +44,78 @@ def main():
     glfwMakeContextCurrent(window)
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback)
 
-    our_shader = Shader("./01_shader.vs", "./01_shader.fs")
+    glEnable(GL_DEPTH_TEST)
+
+    our_shader = Shader("./03_coordinate_systems_multiple.vs", "./03_coordinate_systems_multiple.fs")
 
     vertices = np.array(
         [   
-            # positions         # texture coords
-            0.5,  0.5, 0.0,     1.0, 1.0,
-            0.5, -0.5, 0.0,     1.0, 0.0,
-            -0.5, -0.5, 0.0,    0.0, 0.0,
-            -0.5,  0.5, 0.0,    0.0, 1.0, 
+            -0.5, -0.5, -0.5,  0.0, 0.0,
+            0.5, -0.5, -0.5,  1.0, 0.0,
+            0.5,  0.5, -0.5,  1.0, 1.0,
+            0.5,  0.5, -0.5,  1.0, 1.0,
+            -0.5,  0.5, -0.5,  0.0, 1.0,
+            -0.5, -0.5, -0.5,  0.0, 0.0,
+
+            -0.5, -0.5,  0.5,  0.0, 0.0,
+            0.5, -0.5,  0.5,  1.0, 0.0,
+            0.5,  0.5,  0.5,  1.0, 1.0,
+            0.5,  0.5,  0.5,  1.0, 1.0,
+            -0.5,  0.5,  0.5,  0.0, 1.0,
+            -0.5, -0.5,  0.5,  0.0, 0.0,
+
+            -0.5,  0.5,  0.5,  1.0, 0.0,
+            -0.5,  0.5, -0.5,  1.0, 1.0,
+            -0.5, -0.5, -0.5,  0.0, 1.0,
+            -0.5, -0.5, -0.5,  0.0, 1.0,
+            -0.5, -0.5,  0.5,  0.0, 0.0,
+            -0.5,  0.5,  0.5,  1.0, 0.0,
+
+            0.5,  0.5,  0.5,  1.0, 0.0,
+            0.5,  0.5, -0.5,  1.0, 1.0,
+            0.5, -0.5, -0.5,  0.0, 1.0,
+            0.5, -0.5, -0.5,  0.0, 1.0,
+            0.5, -0.5,  0.5,  0.0, 0.0,
+            0.5,  0.5,  0.5,  1.0, 0.0,
+
+            -0.5, -0.5, -0.5,  0.0, 1.0,
+            0.5, -0.5, -0.5,  1.0, 1.0,
+            0.5, -0.5,  0.5,  1.0, 0.0,
+            0.5, -0.5,  0.5,  1.0, 0.0,
+            -0.5, -0.5,  0.5,  0.0, 0.0,
+            -0.5, -0.5, -0.5,  0.0, 1.0,
+
+            -0.5,  0.5, -0.5,  0.0, 1.0,
+            0.5,  0.5, -0.5,  1.0, 1.0,
+            0.5,  0.5,  0.5,  1.0, 0.0,
+            0.5,  0.5,  0.5,  1.0, 0.0,
+            -0.5,  0.5,  0.5,  0.0, 0.0,
+            -0.5,  0.5, -0.5,  0.0, 1.0,
         ],
         dtype=np.float32,
     )
 
-    indices = np.array(
-        [   
-            0, 1, 3,
-            1, 2, 3
-        ],
-        dtype=np.uint32,
-    )
+    cubePositions = [
+        glm.vec3( 0.0,  0.0,  0.0),
+        glm.vec3( 2.0,  5.0, -15.0),
+        glm.vec3(-1.5, -2.2, -2.5),
+        glm.vec3(-3.8, -2.0, -12.3),
+        glm.vec3( 2.4, -0.4, -3.5),
+        glm.vec3(-1.7,  3.0, -7.5),
+        glm.vec3( 1.3, -2.0, -2.5),
+        glm.vec3( 1.5,  2.0, -2.5),
+        glm.vec3( 1.5,  0.2, -1.5),
+        glm.vec3(-1.3,  1.0, -1.5),
+    ]
 
     vbo = c_uint32(0)
     vao = c_uint32(0)
-    ebo = c_uint32(0)    
 
     glCreateBuffers(1, byref(vbo))
     glCreateVertexArrays(1, byref(vao))
-    glCreateBuffers(1, byref(ebo))
 
     glNamedBufferStorage(vbo, vertices.nbytes, vertices, GL_DYNAMIC_STORAGE_BIT)
-    glNamedBufferStorage(ebo, indices.nbytes, indices, GL_DYNAMIC_STORAGE_BIT)
     glVertexArrayVertexBuffer(vao, 0, vbo, 0, 5 * vertices.itemsize)
-
-    glVertexArrayElementBuffer(vao, ebo)
 
     glEnableVertexArrayAttrib(vao, 0)
     glEnableVertexArrayAttrib(vao, 1)
@@ -121,36 +159,37 @@ def main():
         process_input(window)
 
         glClearColor(0.2, 0.3, 0.3, 1.0)
-        glClear(GL_COLOR_BUFFER_BIT)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         glBindTextureUnit(0, texture1)
         glBindTextureUnit(1, texture2)
 
         our_shader.use()
 
-        model = glm.mat4(1.0)
-        view = glm.mat4(1.0)
-        projection = glm.mat4(1.0)
-        model = glm.rotate(model, glm.radians(-55.0), glm.vec3(1.0, 0.0, 0.0))
-        view = glm.translate(view, glm.vec3(0.0, 0.0, -3.0))
+        view            = glm.mat4(1.0)
+        projection      = glm.mat4(1.0)
         projection = glm.perspective(glm.radians(45.0), SCR_WIDTH / SCR_HEIGHT, 0.1, 100.0)
+        view = glm.translate(view, glm.vec3(0.0, 0.0, -3.0))
 
-        model_loc = glGetUniformLocation(our_shader.id, "model")
-        view_loc = glGetUniformLocation(our_shader.id, "view")
-
-        glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm.value_ptr(model))
-        glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm.value_ptr(view))
         our_shader.set_mat4v("projection", projection)
-        
+        our_shader.set_mat4v("view", view)
+
         glBindVertexArray(vao)
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, None)
+
+        for i, cubePosition in enumerate(cubePositions):
+            model = glm.mat4(1.0)
+            model = glm.translate(model, cubePosition)
+            angle = 20.0 * i
+            model = glm.rotate(model, glm.radians(angle), glm.vec3(1.0, 0.3, 0.5))
+            our_shader.set_mat4v("model", model)
+            
+            glDrawArrays(GL_TRIANGLES, 0, 36)
 
         glfwSwapBuffers(window)
         glfwPollEvents()
 
     glDeleteVertexArrays(1, vao)
     glDeleteBuffers(1, vbo)
-    glDeleteBuffers(1, ebo)
     glDeleteTextures(1, texture1)
     glDeleteTextures(1, texture2)
     our_shader.destroy()
