@@ -28,8 +28,7 @@ The camera matrix is passed to the shader through uniform variables.
 
 See code:
 
-```
-src/01_getting_started/07_camera/01_camera_circle.py
-src/01_getting_started/07_camera/02_camera_keyboard_dt.py
-src/01_getting_started/07_camera/03_camera_mouse_zoom.py
-```
+
+- src/01_getting_started/07_camera/01_camera_circle.py
+- src/01_getting_started/07_camera/02_camera_keyboard_dt.py
+- src/01_getting_started/07_camera/03_camera_mouse_zoom.py

@@ -44,7 +44,5 @@ This section emphasizes the Immutable Storage concept and the rational choice of
 
 See code:
 
-```
-src/01_getting_started/04_texture/01_textures.py
-src/01_getting_started/04_texture/02_textures_combined.py
-```
+- src/01_getting_started/04_texture/01_textures.py
+- src/01_getting_started/04_texture/02_textures_combined.py

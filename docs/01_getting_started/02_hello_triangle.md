@@ -58,7 +58,5 @@ This section uses Direct State Access (DSA) instead of the traditional bind-base
 
 See code:
 
-```
-src/01_getting_started/02_hello_triangle/01_hello_triangle.py
-src/01_getting_started/02_hello_triangle/02_hello_triangle_indexed.py
-```
+- src/01_getting_started/02_hello_triangle/01_hello_triangle.py
+- src/01_getting_started/02_hello_triangle/02_hello_triangle_indexed.py

@@ -35,8 +35,6 @@ The coordinate matrix is passed to the shader through uniform variables.
 
 See code:
 
-```
-src/01_getting_started/06_coordinate_systems/01_coordinate_systems.py
-src/01_getting_started/06_coordinate_systems/02_coordinate_systems_depth.py
-src/01_getting_started/06_coordinate_systems/03_coordinate_systems_multiple.py
-```
+- src/01_getting_started/06_coordinate_systems/01_coordinate_systems.py
+- src/01_getting_started/06_coordinate_systems/02_coordinate_systems_depth.py
+- src/01_getting_started/06_coordinate_systems/03_coordinate_systems_multiple.py

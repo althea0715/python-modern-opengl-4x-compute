@@ -38,6 +38,4 @@ The transformation matrix is passed to the shader through uniform variables.
 
 See code:
 
-```
-src/01_getting_started/05_transformations/01_transformations.py
-```
+- src/01_getting_started/05_transformations/01_transformations.py

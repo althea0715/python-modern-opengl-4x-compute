@@ -57,9 +57,7 @@ It also briefly checks the program pipeline (separable shader) for comparison.
 
 See code:
 
-```
-src/01_getting_started/03_shader/01_shaders_uniform.py
-src/01_getting_started/03_shader/02_shaders_uniform_with_pipeline.py
-src/01_getting_started/03_shader/03_shaders_interpolation.py
-src/01_getting_started/03_shader/04_shaders_class.py
-```
+- src/01_getting_started/03_shader/01_shaders_uniform.py
+- src/01_getting_started/03_shader/02_shaders_uniform_with_pipeline.py
+- src/01_getting_started/03_shader/03_shaders_interpolation.py
+- src/01_getting_started/03_shader/04_shaders_class.py

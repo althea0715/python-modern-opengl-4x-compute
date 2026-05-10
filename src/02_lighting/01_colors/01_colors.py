@@ -162,7 +162,6 @@ def main():
     glVertexArrayAttribBinding(cube_vao, 0, 0)
     glVertexArrayAttribBinding(cube_vao, 1, 0)
 
-
     light_cube_vao = c_uint32(0)
     glCreateVertexArrays(1, byref(light_cube_vao))
 
@@ -191,8 +190,7 @@ def main():
         lighting_shader.set_vec3("objectColor", 1.0, 0.5, 0.31)
         lighting_shader.set_vec3("lightColor", 1.0, 1.0, 1.0)
 
-
-        projection = glm.perspective(glm.radians(camera._zoom), SCR_WIDTH / SCR_HEIGHT, 0.1, 100.0)
+        projection = glm.perspective(glm.radians(camera.zoom), SCR_WIDTH / SCR_HEIGHT, 0.1, 100.0)
         view = camera.get_view_matrix()
         lighting_shader.set_mat4v("projection", projection)
         lighting_shader.set_mat4v("view", view)
@@ -200,10 +198,8 @@ def main():
         model = glm.mat4(1.0)
         lighting_shader.set_mat4v("model", model)
 
-
         glBindVertexArray(cube_vao)
         glDrawArrays(GL_TRIANGLES, 0, 36)
-
     
         light_cube_shader.use()
         light_cube_shader.set_mat4v("projection", projection)
