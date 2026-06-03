@@ -8,7 +8,17 @@ dependencies = [
     "glfw>=2.10.0",
     "numpy>=2.4.4",
     "pillow>=12.2.0",
+    "pyassimp>=5.2.5",
     "pyglm>=2.8.3",
     "pyopengl>=3.1.10",
     "pyopengl-accelerate>=3.1.10",
+    "setuptools>=82.0.1",
 ]
+
+[tool.ruff]
+line-length = 120
+
+[tool.pyright]
+stubPath = "./stubs"
+
+

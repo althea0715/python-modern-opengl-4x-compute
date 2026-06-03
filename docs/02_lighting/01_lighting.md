@@ -18,12 +18,6 @@ The primary logic is implemented in GLSL shaders rather than OpenGL API calls.
 
 ---
 
-## Notes
-
-- Nothing.
-
----
-
 ## Implementation
 
 See code:

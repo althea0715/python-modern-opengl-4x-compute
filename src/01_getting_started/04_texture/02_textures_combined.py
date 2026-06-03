@@ -28,6 +28,7 @@ def process_input(window: GLFWwindow):
 
 
 def main():
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
     glfwInit()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4)

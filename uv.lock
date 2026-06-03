@@ -165,6 +165,12 @@ wheels = [
 ]
 
 [[package]]
+name = "pyassimp"
+version = "5.2.5"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/99/5f/f5577fe7f48be4d2bdf7e3284285469da80b99e4a4c34d4c927466317053/pyassimp-5.2.5.tar.gz", hash = "sha256:107d93780e4300d70698c4291c54dd32ff78e8cf0dafd56ac1801cd0260c36f3", size = 101072, upload-time = "2023-06-20T20:31:27.18Z" }
+
+[[package]]
 name = "pyglm"
 version = "2.8.3"
 source = { registry = "https://pypi.org/simple" }
@@ -257,9 +263,11 @@ dependencies = [
     { name = "glfw" },
     { name = "numpy" },
     { name = "pillow" },
+    { name = "pyassimp" },
     { name = "pyglm" },
     { name = "pyopengl" },
     { name = "pyopengl-accelerate" },
+    { name = "setuptools" },
 ]
 
 [package.metadata]
@@ -267,7 +275,18 @@ requires-dist = [
     { name = "glfw", specifier = ">=2.10.0" },
     { name = "numpy", specifier = ">=2.4.4" },
     { name = "pillow", specifier = ">=12.2.0" },
+    { name = "pyassimp", specifier = ">=5.2.5" },
     { name = "pyglm", specifier = ">=2.8.3" },
     { name = "pyopengl", specifier = ">=3.1.10" },
     { name = "pyopengl-accelerate", specifier = ">=3.1.10" },
+    { name = "setuptools", specifier = ">=82.0.1" },
+]
+
+[[package]]
+name = "setuptools"
+version = "82.0.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/4f/db/cfac1baf10650ab4d1c111714410d2fbb77ac5a616db26775db562c8fab2/setuptools-82.0.1.tar.gz", hash = "sha256:7d872682c5d01cfde07da7bccc7b65469d3dca203318515ada1de5eda35efbf9", size = 1152316, upload-time = "2026-03-09T12:47:17.221Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9d/76/f789f7a86709c6b087c5a2f52f911838cad707cc613162401badc665acfe/setuptools-82.0.1-py3-none-any.whl", hash = "sha256:a59e362652f08dcd477c78bb6e7bd9d80a7995bc73ce773050228a348ce2e5bb", size = 1006223, upload-time = "2026-03-09T12:47:15.026Z" },
 ]
